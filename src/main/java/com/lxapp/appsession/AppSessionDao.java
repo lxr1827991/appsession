@@ -1,7 +1,7 @@
-package com.app.appsession;
+package com.lxapp.appsession;
 
-import com.app.appsession.exception.AppSessionException;
-import com.app.appsession.utils.EhcacheUtil;
+import com.lxapp.appsession.exception.AppSessionException;
+import com.lxapp.appsession.utils.EhcacheUtil;
 
 public class AppSessionDao {
 
@@ -14,7 +14,7 @@ public class AppSessionDao {
 		
 		if(obj instanceof AppSession)return (AppSession)obj;
 		
-		throw new AppSessionException("ehcache 缓存的类型错误");
+		throw new AppSessionException("ehcache 缓存的类型错�?");
 		
 		
 	}

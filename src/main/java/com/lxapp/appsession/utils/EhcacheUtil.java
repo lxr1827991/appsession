@@ -1,4 +1,4 @@
-package com.app.appsession.utils;
+package com.lxapp.appsession.utils;
 
 import java.net.URL;
 

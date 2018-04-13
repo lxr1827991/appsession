@@ -1,4 +1,4 @@
-package com.app.appsession.exception;
+package com.lxapp.appsession.exception;
 
 
 public class AppSessionException  extends RuntimeException{

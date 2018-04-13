@@ -1,12 +1,21 @@
-package com.app.appsession;
+package com.lxapp.appsession;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lxapp.appsession.bean.AppClient;
+
 public class AppSession  implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 20180405;
+
 	String id;
+	
+	AppClient appClient;
 	
 	Map<String, Object> attrs = new HashMap<>();
 
@@ -30,6 +39,13 @@ public class AppSession  implements Serializable{
 
 	}
 	
+	public AppClient getAppClient() {
+		return appClient;
+	}
+
+	public void setAppClient(AppClient appClient) {
+		this.appClient = appClient;
+	}
 
 	public void invalidat() {
 		

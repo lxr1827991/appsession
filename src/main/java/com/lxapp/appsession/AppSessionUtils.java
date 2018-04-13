@@ -1,4 +1,4 @@
-package com.app.appsession;
+package com.lxapp.appsession;
 
 public class AppSessionUtils {
 	
