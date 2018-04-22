@@ -1,27 +1,19 @@
 package com.lxapp.appsession;
 
-import com.lxapp.appsession.exception.AppSessionException;
-import com.lxapp.appsession.utils.EhcacheUtil;
-
-public class AppSessionDao {
-
-	String cacheName = "appSession";
+public interface AppSessionDao {
 	
-	public AppSession getSession(String sessionid) {
-		Object obj = EhcacheUtil.getInstance().get(cacheName,sessionid);
-
-		if(obj==null)return null;
-		
-		if(obj instanceof AppSession)return (AppSession)obj;
-		
-		throw new AppSessionException("ehcache 缓存的类型错�?");
-		
-		
-	}
+	public AppSession getSession(String sessionid);
 	
 	
-	public void save(AppSession appSession) {
-		EhcacheUtil.getInstance().put(cacheName, appSession.getId(), appSession);
-	}
+	public void save(AppSession appSession);
+	
+	public void update(String sessionid,AppSession appSession);
+	
+	
+	void delete(AppSession appSession);
+	/**
+	 * 设置session不过期
+	 */
+	void setForever(AppSession appSession);
 	
 }

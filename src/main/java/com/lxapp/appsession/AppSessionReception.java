@@ -1,5 +1,7 @@
 package com.lxapp.appsession;
 
+import com.lxapp.appsession.utils.AppSessionUtils;
+
 public class AppSessionReception {
 
 	
@@ -19,7 +21,15 @@ public class AppSessionReception {
 	}
 	
 	
+	public void requestStart() {
+		AppSessionUtils.cleanMemorySession();
+	}
 	
+	 public void requestFinish() {
+		
+		 AppSessionUtils.updateAppsession();
+
+	}
 	
 	
 }

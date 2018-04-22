@@ -1,4 +1,4 @@
-package com.lxapp.appsession.utils;
+package com.lxapp.appsession.ehchache;
 
 import java.net.URL;
 
@@ -10,15 +10,14 @@ public class EhcacheUtil {
 	
 
     private static final String path = "/ehcache.xml";  
-  
-    private URL url;  
+   
   
     private CacheManager manager;  
   
     private static EhcacheUtil ehCache;  
   
     public  EhcacheUtil(String path) {  
-        url = getClass().getResource(path);  
+    	URL url = getClass().getResource(path);  
         manager = CacheManager.create(url);  
     }  
   
@@ -34,6 +33,13 @@ public class EhcacheUtil {
         Element element = new Element(key, value);  
         cache.put(element);  
     }  
+    
+    public void put(String cacheName, String key, Object value,boolean toDisk) {  
+        Cache cache = manager.getCache(cacheName);  
+        Element element = new Element(key, value);  
+        cache.put(element);  
+        if(toDisk)cache.flush();
+    }
   
     public Object get(String cacheName, String key) {  
         Cache cache = manager.getCache(cacheName);  

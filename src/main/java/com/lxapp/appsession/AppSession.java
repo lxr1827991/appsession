@@ -5,15 +5,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.lxapp.appsession.bean.AppClient;
+import com.lxapp.appsession.utils.AppSessionUtils;
 
 public class AppSession  implements Serializable{
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 20180405;
 
+	
+	
 	String id;
+	
+	boolean isvalid = true;
+	
+	boolean forever = false;
 	
 	AppClient appClient;
 	
@@ -49,7 +56,17 @@ public class AppSession  implements Serializable{
 
 	public void invalidat() {
 		
-
+		AppSessionUtils.appSessionManager.deleteAppsession(this);
+		isvalid = false;
+	}
+	
+	public void setForever() {
+		AppSessionUtils.appSessionManager.setForever(this);
+		forever=true;
+	}
+	
+	public boolean isForever() {
+		return forever;
 	}
 	
 	@Override

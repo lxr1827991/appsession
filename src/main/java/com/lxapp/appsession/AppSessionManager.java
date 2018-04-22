@@ -1,31 +1,46 @@
 package com.lxapp.appsession;
 
+import com.lxapp.appsession.ehchache.EhcacheAppsessionDao;
+
 public class AppSessionManager {
 	
 	
-	AppSessionReception appSessionReception;
+	private AppSessionReception appSessionReception;
 	
-	AppSessionDao appSessionDao;
+	private AppSessionDao appSessionDao;
 	
-	AppSessionGenerate appSessionGenerate;
+	private AppSessionGenerate appSessionGenerate;
+	
+	
+	public void init() {
+		if(appSessionReception==null)
+			throw new IllegalArgumentException("appSessionReception is null");
+	}
 	
 
 	public AppSession getSession() {
-		 
-		if(appSessionReception==null)
-			throw new IllegalArgumentException("appSessionReception is null");
 		
-		String sessionid = appSessionReception.getSessionId();
-		
-		return getSession(sessionid);
+		return getSession(true);
 
 	}
 	
-	public AppSession getSession(String sessionid) {
+	public AppSession getSession(boolean iscreate) {
+		
+		String sessionid = appSessionReception.getSessionId();
+		
+		return getSession(sessionid,iscreate);
+
+	}
+	
+	private AppSession getSession(String sessionid,boolean iscreate) {
 		 
+		if((sessionid==null||"".equals(sessionid))&&!iscreate)return null;
+		
 		AppSession session = appSessionDao.getSession(sessionid);
 		
-		if(session==null)return createAppSession();
+		if(session==null&&iscreate)return createAppSession();
+		
+		if(session!=null)appSessionReception.setSessionId(session.getId());
 		
 		return session;
 
@@ -44,6 +59,21 @@ public class AppSessionManager {
 	
 
 	
+	protected void deleteAppsession(AppSession appSession) {
+		appSessionDao.delete(appSession);
+
+	}
+	
+	protected void setForever(AppSession appSession) {
+		appSessionDao.setForever(appSession);
+
+	}
+	
+	public void updateAppsession(AppSession appSession) {
+		
+		appSessionDao.update(appSession.getId(), appSession);
+		
+	}
 	
 
 	public AppSessionReception getAppSessionReception() {
@@ -75,7 +105,7 @@ public class AppSessionManager {
 	
 	public static void main(String[] args) {
 		
-		AppSessionDao appSessionDao = new AppSessionDao();
+		AppSessionDao appSessionDao = new EhcacheAppsessionDao();
 		AppSession appSession = new AppSession();
 		appSession.setId("1234");
 		
