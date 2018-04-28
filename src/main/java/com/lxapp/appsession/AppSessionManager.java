@@ -1,5 +1,9 @@
 package com.lxapp.appsession;
 
+import java.util.List;
+
+import javax.net.ssl.SSLSession;
+
 import com.lxapp.appsession.ehchache.EhcacheAppsessionDao;
 
 public class AppSessionManager {
@@ -45,6 +49,14 @@ public class AppSessionManager {
 		return session;
 
 	}
+	
+	
+	public AppSession getSessionByAlias(String alias) {
+
+		return appSessionDao.getByAlias(alias);
+
+	}
+	
 	
 	
 	

@@ -12,11 +12,14 @@ public class AppSession  implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 20180405;
+	private static final long serialVersionUID = 20180428;
 
 	
 	
 	String id;
+	
+	String	alias;
+	
 	
 	boolean isvalid = true;
 	
@@ -69,6 +72,17 @@ public class AppSession  implements Serializable{
 		return forever;
 	}
 	
+	
+	
+	
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
 	@Override
 	public String toString() {
 		return "AppSession [id=" + id + "]";

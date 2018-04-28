@@ -1,10 +1,12 @@
 package com.lxapp.appsession.bean;
 
-public class AppClient {
+import java.io.Serializable;
+
+public class AppClient implements Serializable{
 	
-	//ÕËºÅÃÜÂë
+	//ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½
 	public static final int AUTH_TYPE_PWD = 1;
-	//×Ô¶¯µÇÂ¼
+	//ï¿½Ô¶ï¿½ï¿½ï¿½Â¼
 	public static final int AUTH_TYPE_AUTO = 2;
 	
 	String id;

@@ -1,10 +1,16 @@
 package com.lxapp.appsession.ehchache;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.search.Attribute;
+import net.sf.ehcache.search.Query;
+import net.sf.ehcache.search.Result;
+import net.sf.ehcache.search.Results;
 
 public class EhcacheUtil {
 	
@@ -50,6 +56,24 @@ public class EhcacheUtil {
     public Cache get(String cacheName) {  
         return manager.getCache(cacheName);  
     }  
+    
+    
+    public List<Object> find(String cacheName,String attr,String kw) {
+    	 Cache cache = manager.getCache(cacheName);  
+    	 Attribute<String> kwAttr = cache.getSearchAttribute(attr); 
+    	 Query query = cache.createQuery();  
+    	  query.addCriteria(kwAttr.eq(kw));
+    	  Results results = query.execute();  
+    	//获取Results中包含的所有的Result对象  
+    	List<Result> resultList = results.all(); 
+    	List<Object> retList = new ArrayList<>();
+    	for (Result result : resultList) {
+    		retList.add(result.getValue());
+		}
+    	
+    	return retList;
+
+	}
   
     public void remove(String cacheName, String key) {  
         Cache cache = manager.getCache(cacheName);  
