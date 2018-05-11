@@ -15,15 +15,13 @@ public class AppSession  implements Serializable{
 	private static final long serialVersionUID = 20180428;
 
 	
-	
 	String id;
 	
 	String	alias;
 	
-	
 	boolean isvalid = true;
 	
-	boolean forever = false;
+	int life = 5;
 	
 	AppClient appClient;
 	
@@ -40,7 +38,6 @@ public class AppSession  implements Serializable{
 	
 	public void putAttr(String key,Object val) {
 		attrs.put(key, val);
-
 	}
 	
 	
@@ -59,22 +56,36 @@ public class AppSession  implements Serializable{
 
 	public void invalidat() {
 		
-		AppSessionUtils.appSessionManager.deleteAppsession(this);
+		
 		isvalid = false;
 	}
 	
-	public void setForever() {
-		AppSessionUtils.appSessionManager.setForever(this);
-		forever=true;
+	public void setLife(int life) {
+		this.life = life;
+		AppSessionUtils.appSessionManager.setLife(this,life);
+		
 	}
 	
-	public boolean isForever() {
-		return forever;
+	public int getLife() {
+		return life;
 	}
 	
-	
-	
-	
+	public boolean isIsvalid() {
+		return isvalid;
+	}
+
+	public void setIsvalid(boolean isvalid) {
+		this.isvalid = isvalid;
+	}
+
+	public Map<String, Object> getAttrs() {
+		return attrs;
+	}
+
+	public void setAttrs(Map<String, Object> attrs) {
+		this.attrs = attrs;
+	}
+
 	public String getAlias() {
 		return alias;
 	}

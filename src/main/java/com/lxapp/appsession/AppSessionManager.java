@@ -1,10 +1,7 @@
 package com.lxapp.appsession;
 
-import java.util.List;
-
-import javax.net.ssl.SSLSession;
-
-import com.lxapp.appsession.ehchache.EhcacheAppsessionDao;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AppSessionManager {
 	
@@ -15,6 +12,7 @@ public class AppSessionManager {
 	
 	private AppSessionGenerate appSessionGenerate;
 	
+	Timer timer;
 	
 	public void init() {
 		if(appSessionReception==null)
@@ -71,19 +69,41 @@ public class AppSessionManager {
 	
 
 	
-	protected void deleteAppsession(AppSession appSession) {
+	public void deleteAppsession(AppSession appSession) {
+		appSessionReception.setSessionId(null);
+		appSession.setIsvalid(false);
 		appSessionDao.delete(appSession);
 
 	}
 	
-	protected void setForever(AppSession appSession) {
-		appSessionDao.setForever(appSession);
-
+	protected void setLife(AppSession appSession,int life) {
+		
+		appSessionDao.setLife(appSession, life);
 	}
 	
 	public void updateAppsession(AppSession appSession) {
 		
 		appSessionDao.update(appSession.getId(), appSession);
+	}
+	
+	
+	
+	public void refSession(AppSession appSession) {
+		appSessionDao.refLife(appSession);
+
+	}
+	
+	public void startLifeService() {
+		if(timer!=null)return;
+		
+		System.out.println("====appSession服务启动====");
+		
+		timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {  
+            public void run() {  
+                appSessionDao.gc();
+            }  
+        }, 10000, 60000); 
 		
 	}
 	
@@ -91,8 +111,7 @@ public class AppSessionManager {
 	public AppSessionReception getAppSessionReception() {
 		return appSessionReception;
 	}
-
-
+	
 	public void setAppSessionReception(AppSessionReception appSessionReception) {
 		this.appSessionReception = appSessionReception;
 	}
@@ -111,27 +130,6 @@ public class AppSessionManager {
 
 	public void setAppSessionGenerate(AppSessionGenerate appSessionGenerate) {
 		this.appSessionGenerate = appSessionGenerate;
-	}
-	
-	
-	
-	public static void main(String[] args) {
-		
-		AppSessionDao appSessionDao = new EhcacheAppsessionDao();
-		AppSession appSession = new AppSession();
-		appSession.setId("1234");
-		
-		appSessionDao.save(appSession);
-		AppSession appSession2 = new AppSession();
-		appSession2.setId("1");
-		appSessionDao.save(appSession2);
-		
-		appSession2.setId("33");
-		appSession.setId("11");
-		
-		System.err.println(appSession2== appSessionDao.getSession("1"));
-		System.err.println(appSession== appSessionDao.getSession("1234"));
-		
 	}
 	
 	

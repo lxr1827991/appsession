@@ -1,7 +1,5 @@
 package com.lxapp.appsession.utils;
 
-import java.util.List;
-
 import com.lxapp.appsession.AppSession;
 import com.lxapp.appsession.AppSessionManager;
 
@@ -32,7 +30,9 @@ public class AppSessionUtils {
 
 	}
 	
-	
+	public static void refSession(AppSession appSession) {
+		appSessionManager.refSession(appSession);
+	}
 	
 	
 	public static void updateAppsession() {
@@ -41,6 +41,16 @@ public class AppSessionUtils {
 		appSessionManager.updateAppsession(session);
 	}
 	
+	
+	public static void invalidatSession(AppSession appSession) {
+		
+		AppSession thisSession = AppSessionUtils.getSession(false);
+		if(thisSession!=null&&thisSession.getId().equals(appSession.getId())) {
+			threadSession.set(null);
+		}
+		
+		AppSessionUtils.appSessionManager.deleteAppsession(appSession);
+	}
 	
 	
 	

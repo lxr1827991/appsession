@@ -1,9 +1,5 @@
 package com.lxapp.appsession.ehchache;
 
-import java.util.List;
-
-import javax.management.Query;
-
 import com.lxapp.appsession.AppSession;
 import com.lxapp.appsession.AppSessionDao;
 import com.lxapp.appsession.exception.AppSessionException;
@@ -29,13 +25,6 @@ public class EhcacheAppsessionDao implements AppSessionDao{
 		
 	}
 	
-	
-	public List<AppSession> findByAlias(String alias) {
-		
-		return null;
-
-	}
-	
 	public AppSession getByAlias(String alias) {
 		Object obj = EhcacheUtil.getInstance().get(aliasChache,alias);
 		
@@ -50,7 +39,7 @@ public class EhcacheAppsessionDao implements AppSessionDao{
 	
 	
 	public void save(AppSession appSession) {
-		if(appSession.isForever()) {
+		if(appSession.getLife()<0) {
 			EhcacheUtil.getInstance().put(foreverCache, appSession.getId(), appSession,true);
 			if(appSession.getAlias()!=null&&!"".equals(appSession.getAlias()))
 			EhcacheUtil.getInstance().put(aliasChache, appSession.getAlias(), appSession.getId());
@@ -70,9 +59,12 @@ public class EhcacheAppsessionDao implements AppSessionDao{
 
 
 	@Override
-	public void setForever(AppSession appSession) {
+	public void setLife(AppSession appSession,int life) {
+		
+		if(life<0) {
 		EhcacheUtil.getInstance().remove(tempCache, appSession.getId());
 		save(appSession);
+		}
 		
 	}
 
@@ -80,7 +72,7 @@ public class EhcacheAppsessionDao implements AppSessionDao{
 	@Override
 	public void update(String sessionid, AppSession appSession) {
 		
-		if(appSession.isForever()) {
+		if(appSession.getLife()<0) {
 			Object obj = EhcacheUtil.getInstance().get(foreverCache, sessionid);
 			if(obj!=null) {
 				String palias = ((AppSession)obj).getAlias();
@@ -98,5 +90,20 @@ public class EhcacheAppsessionDao implements AppSessionDao{
 		EhcacheUtil.getInstance().put(tempCache, appSession.getId(), appSession);
 		
 	}
+
+	@Override
+	public void refLife(AppSession session) {
+		
+		
+	}
+
+	@Override
+	public void gc() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
 	
 }

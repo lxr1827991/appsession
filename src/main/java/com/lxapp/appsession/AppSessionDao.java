@@ -1,11 +1,10 @@
 package com.lxapp.appsession;
 
-import java.util.List;
+
 
 public interface AppSessionDao {
 	
 	public AppSession getSession(String sessionid);
-	
 	
 	public void save(AppSession appSession);
 	
@@ -14,12 +13,14 @@ public interface AppSessionDao {
 	
 	void delete(AppSession appSession);
 	/**
-	 * 设置session不过期
+	 * 设置session 生命周期
 	 */
-	void setForever(AppSession appSession);
-	
-	public List<AppSession> findByAlias(String alias);
+	void setLife(AppSession appSession,int life);
 	
 	public AppSession getByAlias(String alias);
+	
+	void refLife(AppSession session);
+	
+	void gc();
 	
 }
