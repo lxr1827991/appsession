@@ -1,9 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.app</groupId>
+  <groupId>com.github.lxr1827991</groupId>
   <artifactId>appsession</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+   <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+  
   <properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- spring版本号 -->
     <spring.version>4.1.5.RELEASE</spring.version>
     <!-- mybatis版本号 -->
@@ -52,4 +60,110 @@
 
  
   </dependencies>
+  <build>
+  <plugins>
+				<!-- 指定jdk --> 
+				<plugin> 
+				<groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-compiler-plugin</artifactId> 
+				<configuration> 
+				<source>1.7</source> 
+				<target>1.7</target> 
+				</configuration> 
+				</plugin> 
+				</plugins>
+	</build>
+  
+  
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <tag>master</tag>
+        <url>git@github.com:lxr1827991/appsession.git</url>
+        <connection>scm:git:git@github.com:lxr1827991/appsession.git</connection>
+        <developerConnection>scm:git:git@github.com:lxr1827991/appsession.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <name>liuxr</name>
+            <email>2763089214@qq.com</email>
+            <organization>lxr1827991</organization>
+        </developer>
+    </developers>
+    
+    
+    <profiles>
+		<profile>
+                      <!-- 打包的 -P参数 -->
+			<id>sonatype-oss-release</id>
+			<build>
+				<plugins>
+					<!-- Source -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- Javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+                                                <!-- -Xdoclint:none 是为了生存apidoc的时候检查不必太严格-->
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- GPG  打包插件-->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			<distributionManagement>
+				<snapshotRepository>
+                                        <!--- 此处的id需要和setting.xml 配置的service的id一致 -->
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+				</snapshotRepository>
+				<repository>
+					<id>ossrh</id>
+					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+
+	</profiles>
+    
 </project>
