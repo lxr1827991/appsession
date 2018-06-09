@@ -7,7 +7,7 @@ import java.util.Map;
 import com.lxapp.appsession.bean.AppClient;
 import com.lxapp.appsession.utils.AppSessionUtils;
 
-public class AppSession  implements Serializable{
+public abstract class AppSession  implements Serializable{
 	
 	/**
 	 * 
@@ -23,9 +23,6 @@ public class AppSession  implements Serializable{
 	
 	int life = 5;
 	
-	AppClient appClient;
-	
-	Map<String, Object> attrs = new HashMap<>();
 
 	public String getId() {
 		return id;
@@ -36,23 +33,11 @@ public class AppSession  implements Serializable{
 	}
 	
 	
-	public void putAttr(String key,Object val) {
-		attrs.put(key, val);
-	}
+	public abstract void putAttr(String key,String val);
+	
+	public abstract String getAttr(String key);
 	
 	
-	public Object getAttr(String key) {
-		return attrs.get(key);
-
-	}
-	
-	public AppClient getAppClient() {
-		return appClient;
-	}
-
-	public void setAppClient(AppClient appClient) {
-		this.appClient = appClient;
-	}
 
 	public void invalidat() {
 		
@@ -76,14 +61,6 @@ public class AppSession  implements Serializable{
 
 	public void setIsvalid(boolean isvalid) {
 		this.isvalid = isvalid;
-	}
-
-	public Map<String, Object> getAttrs() {
-		return attrs;
-	}
-
-	public void setAttrs(Map<String, Object> attrs) {
-		this.attrs = attrs;
 	}
 
 	public String getAlias() {

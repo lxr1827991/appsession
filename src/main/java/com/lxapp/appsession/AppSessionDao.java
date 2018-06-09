@@ -1,7 +1,5 @@
 package com.lxapp.appsession;
 
-
-
 public interface AppSessionDao {
 	
 	public AppSession getSession(String sessionid);
